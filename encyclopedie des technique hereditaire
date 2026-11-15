@@ -1,1 +1,753 @@
 
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Encyclopédie des pouvoirs héréditaires de Naruto : Kekkei Genkai, Dōjutsu et techniques secrètes.">
+    <title>Naruto | Encyclopédie des pouvoirs</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero">
+    <nav class="navbar">
+        <a class="logo" href="#">NARUTO <span>百科</span></a>
+        <a href="#encyclopedie" class="nav-link">Encyclopédie</a>
+    </nav>
+
+    <div class="hero-content">
+        <p class="eyebrow">UNIVERS NARUTO</p>
+        <h1>Les pouvoirs <span>héréditaires</span></h1>
+        <p>Découvre les capacités les plus rares et puissantes du monde ninja.</p>
+        <a href="#encyclopedie" class="hero-button">Explorer les pouvoirs</a>
+    </div>
+</header>
+
+<main id="encyclopedie">
+
+    <section class="search-section">
+        <p class="eyebrow">BASE DE DONNÉES NINJA</p>
+        <h2>Encyclopédie</h2>
+        <p>Recherche une technique, un pouvoir ou un clan.</p>
+
+        <div class="search-box">
+            <span>⌕</span>
+            <input
+                type="search"
+                id="searchBar"
+                placeholder="Ex : Sharingan, Uchiha, Mokuton..."
+                autocomplete="off"
+            >
+            <button id="clearSearch" aria-label="Effacer la recherche">×</button>
+        </div>
+
+        <p id="resultCount" aria-live="polite"></p>
+
+        <div class="filters" id="filters">
+            <button class="filter active" data-filter="all">Tout</button>
+            <button class="filter" data-filter="Dōjutsu">Dōjutsu</button>
+            <button class="filter" data-filter="Kekkei Genkai">Kekkei Genkai</button>
+            <button class="filter" data-filter="Kekkei Tōta">Kekkei Tōta</button>
+            <button class="filter" data-filter="Hiden">Hiden</button>
+            <button class="filter" data-filter="Autre">Autres</button>
+        </div>
+    </section>
+
+    <section class="results-section">
+        <div id="techniqueGrid" class="technique-grid"></div>
+
+        <div id="noResults" class="no-results" hidden>
+            <span>?</span>
+            <h3>Aucun résultat</h3>
+            <p>Essaie un autre nom ou une autre catégorie.</p>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <div class="footer-logo">NARUTO <span>百科</span></div>
+    <p>Encyclopédie non officielle consacrée à l'univers Naruto.</p>
+    <p class="copyright">Projet fan-made — Tous droits réservés à leurs propriétaires respectifs.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --background: #0d1018;
+    --surface: #171c28;
+    --surface-light: #202738;
+    --orange: #ff873d;
+    --orange-light: #ffb16e;
+    --white: #f4f4f6;
+    --muted: #a4aabb;
+    --border: #30394a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    background: var(--background);
+    color: var(--white);
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+}
+
+.hero {
+    min-height: 440px;
+    background:
+        linear-gradient(90deg, rgba(13,16,24,.97), rgba(13,16,24,.7)),
+        radial-gradient(circle at 80% 40%, #873c24, transparent 55%);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar {
+    max-width: 1150px;
+    margin: auto;
+    padding: 25px 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo, .footer-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: white;
+    text-decoration: none;
+}
+
+.logo span, .footer-logo span {
+    color: var(--orange);
+}
+
+.nav-link {
+    color: var(--muted);
+    text-decoration: none;
+}
+
+.nav-link:hover {
+    color: var(--orange);
+}
+
+.hero-content {
+    max-width: 1150px;
+    margin: auto;
+    padding: 75px 25px 90px;
+}
+
+.eyebrow {
+    color: var(--orange);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    margin-bottom: 12px;
+}
+
+.hero h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: clamp(38px, 7vw, 68px);
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: var(--orange);
+}
+
+.hero-content > p:not(.eyebrow) {
+    color: var(--muted);
+    max-width: 500px;
+    margin-bottom: 30px;
+}
+
+.hero-button {
+    display: inline-block;
+    background: var(--orange);
+    color: #17120f;
+    padding: 12px 22px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: .2s;
+}
+
+.hero-button:hover {
+    background: var(--orange-light);
+    transform: translateY(-2px);
+}
+
+main {
+    max-width: 1150px;
+    margin: auto;
+    padding: 60px 25px;
+}
+
+.search-section {
+    text-align: center;
+    margin-bottom: 45px;
+}
+
+.search-section h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 40px;
+}
+
+.search-section > p:not(.eyebrow) {
+    color: var(--muted);
+}
+
+.search-box {
+    max-width: 680px;
+    margin: 25px auto 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 0 16px;
+    border-radius: 10px;
+    transition: .2s;
+}
+
+.search-box:focus-within {
+    border-color: var(--orange);
+    box-shadow: 0 0 15px #ff873d20;
+}
+
+.search-box span {
+    font-size: 28px;
+    color: var(--orange);
+}
+
+.search-box input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    padding: 17px 0;
+    color: white;
+    font-size: 15px;
+}
+
+.search-box input::placeholder {
+    color: #7f8799;
+}
+
+.search-box button {
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    font-size: 25px;
+    cursor: pointer;
+}
+
+#resultCount {
+    color: var(--orange-light);
+    font-size: 13px;
+    margin-bottom: 22px;
+}
+
+.filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 9px;
+}
+
+.filter {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--muted);
+    padding: 8px 15px;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.filter:hover, .filter.active {
+    background: var(--orange);
+    color: #17120f;
+    border-color: var(--orange);
+    font-weight: 700;
+}
+
+.technique-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(245px, 1fr));
+    gap: 18px;
+}
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    transition: .2s;
+    animation: appear .3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    border-color: var(--orange);
+    background: var(--surface-light);
+}
+
+.card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.card-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 10px;
+    background: #ff873d20;
+    color: var(--orange);
+    font-size: 22px;
+}
+
+.tag {
+    font-size: 11px;
+    color: var(--orange-light);
+    background: #ff873d18;
+    border: 1px solid #ff873d40;
+    padding: 5px 9px;
+    border-radius: 20px;
+}
+
+.card h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 24px;
+    color: var(--white);
+    margin-bottom: 8px;
+}
+
+.card p {
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.card .clan {
+    color: var(--orange-light);
+    font-size: 12px;
+    margin-top: 15px;
+}
+
+.no-results {
+    text-align: center;
+    padding: 70px 20px;
+}
+
+.no-results span {
+    font-size: 45px;
+    color: var(--orange);
+}
+
+.no-results p {
+    color: var(--muted);
+}
+
+footer {
+    text-align: center;
+    padding: 35px 20px;
+    background: #090b11;
+    border-top: 1px solid var(--border);
+}
+
+.footer-logo {
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+footer .copyright {
+    margin-top: 12px;
+    font-size: 11px;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 600px) {
+    .hero {
+        min-height: 380px;
+    }
+
+    .hero-content {
+        padding-top: 55px;
+    }
+
+    main {
+        padding: 40px 16px;
+    }
+
+    .search-section h2 {
+        font-size: 34px;
+    }
+
+    .technique-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .filters {
+        gap: 7px;
+    }
+
+    .filter {
+        font-size: 12px;
+        padding: 7px 11px;
+    }
+}
+
+const techniques = [
+    // Dōjutsu
+    {
+        name: "Sharingan",
+        category: "Dōjutsu",
+        clan: "Clan Uchiha",
+        icon: "◉",
+        description: "Œil permettant de percevoir les mouvements, copier certaines techniques et utiliser de puissants genjutsu."
+    },
+    {
+        name: "Byakugan",
+        category: "Dōjutsu",
+        clan: "Clan Hyūga",
+        icon: "◎",
+        description: "Permet une vision presque à 360 degrés et de percevoir le réseau de chakra."
+    },
+    {
+        name: "Rinnegan",
+        category: "Dōjutsu",
+        clan: "Pouvoir légendaire",
+        icon: "◉",
+        description: "Accorde les pouvoirs des Six Chemins et différentes capacités extraordinaires."
+    },
+    {
+        name: "Tenseigan",
+        category: "Dōjutsu",
+        clan: "Clan Ōtsutsuki",
+        icon: "◎",
+        description: "Dōjutsu puissant associé à Toneri Ōtsutsuki."
+    },
+    {
+        name: "Ketsuryūgan",
+        category: "Dōjutsu",
+        clan: "Clan Chinoike",
+        icon: "◉",
+        description: "Œil spécial permettant des techniques de genjutsu et la manipulation du fer dans le sang."
+    },
+    {
+        name: "Œil de Ranmaru",
+        category: "Dōjutsu",
+        clan: "Anime Naruto",
+        icon: "◎",
+        description: "Capacité oculaire permettant de voir à travers certains obstacles et de perturber les perceptions."
+    },
+
+    // Kekkei Genkai
+    {
+        name: "Hyōton",
+        category: "Kekkei Genkai",
+        clan: "Haku",
+        icon: "❄",
+        description: "Fusion du Suiton et du Fūton permettant de créer et manipuler la glace."
+    },
+    {
+        name: "Yōton",
+        category: "Kekkei Genkai",
+        clan: "Plusieurs utilisateurs",
+        icon: "♨",
+        description: "Libération de lave issue de différentes combinaisons élémentaires."
+    },
+    {
+        name: "Futton",
+        category: "Kekkei Genkai",
+        clan: "Mei Terumī",
+        icon: "♨",
+        description: "Libération de vapeur, combinaison du Katon et du Suiton."
+    },
+    {
+        name: "Ranton",
+        category: "Kekkei Genkai",
+        clan: "Darui",
+        icon: "ϟ",
+        description: "Libération de tempête, combinaison du Raiton et du Suiton."
+    },
+    {
+        name: "Bakuton",
+        category: "Kekkei Genkai",
+        clan: "Techniques explosives",
+        icon: "✦",
+        description: "Pouvoir associé à la production d'explosions."
+    },
+    {
+        name: "Jiton",
+        category: "Kekkei Genkai",
+        clan: "Troisième Kazekage",
+        icon: "✧",
+        description: "Libération magnétique permettant de contrôler certains matériaux."
+    },
+    {
+        name: "Shōton",
+        category: "Kekkei Genkai",
+        clan: "Anime Naruto",
+        icon: "◇",
+        description: "Libération du cristal permettant de créer et manipuler des structures cristallines."
+    },
+    {
+        name: "Shikotsumyaku",
+        category: "Kekkei Genkai",
+        clan: "Clan Kaguya",
+        icon: "✧",
+        description: "Permet de manipuler la structure des os et de les utiliser comme armes."
+    },
+    {
+        name: "Mokuton",
+        category: "Kekkei Genkai",
+        clan: "Hashirama Senju",
+        icon: "♧",
+        description: "Libération du bois, combinaison du Suiton et du Doton."
+    },
+
+    // Kekkei Tōta
+    {
+        name: "Jinton",
+        category: "Kekkei Tōta",
+        clan: "Mū et Ōnoki",
+        icon: "✦",
+        description: "Libération de poussière combinant trois natures élémentaires et permettant la désintégration."
+    },
+
+    // Hiden
+    {
+        name: "Manipulation des ombres",
+        category: "Hiden",
+        clan: "Clan Nara",
+        icon: "◐",
+        description: "Permet de contrôler les ombres pour immobiliser ou manipuler les adversaires."
+    },
+    {
+        name: "Expansion corporelle",
+        category: "Hiden",
+        clan: "Clan Akimichi",
+        icon: "⬡",
+        description: "Permet d'agrandir certaines parties du corps ou le corps entier."
+    },
+    {
+        name: "Techniques mentales",
+        category: "Hiden",
+        clan: "Clan Yamanaka",
+        icon: "◉",
+        description: "Permettent notamment de transférer son esprit dans une cible."
+    },
+    {
+        name: "Contrôle des insectes",
+        category: "Hiden",
+        clan: "Clan Aburame",
+        icon: "✺",
+        description: "Les membres du clan vivent en symbiose avec des insectes qu'ils contrôlent."
+    },
+    {
+        name: "Techniques de scellement",
+        category: "Hiden",
+        clan: "Clan Uzumaki",
+        icon: "⌘",
+        description: "Techniques permettant de sceller des objets, des êtres ou du chakra."
+    },
+    {
+        name: "Chaînes de chakra",
+        category: "Autre",
+        clan: "Clan Uzumaki",
+        icon: "⛓",
+        description: "Chaînes de chakra capables de retenir et maîtriser des adversaires puissants."
+    },
+
+    // Autres
+    {
+        name: "Pouvoir de Jūgo",
+        category: "Autre",
+        clan: "Clan de Jūgo",
+        icon: "✦",
+        description: "Capacité naturelle à absorber l'énergie naturelle et à transformer son corps."
+    },
+    {
+        name: "Fusion Sakon et Ukon",
+        category: "Autre",
+        clan: "Sakon et Ukon",
+        icon: "◈",
+        description: "Capacité permettant aux deux frères de fusionner leurs corps."
+    },
+    {
+        name: "Transformation en fumée",
+        category: "Autre",
+        clan: "Clan Iburi",
+        icon: "☁",
+        description: "Capacité du clan Iburi permettant de transformer son corps en fumée."
+    },
+    {
+        name: "Sable de fer",
+        category: "Autre",
+        clan: "Troisième Kazekage",
+        icon: "◆",
+        description: "Technique utilisant le Jiton pour contrôler du sable de fer."
+    },
+    {
+        name: "Perception sensorielle",
+        category: "Autre",
+        clan: "Karin",
+        icon: "◎",
+        description: "Permet de détecter et de distinguer les signatures de chakra."
+    },
+    {
+        name: "Orbes de vérité",
+        category: "Autre",
+        clan: "Pouvoir des Six Chemins",
+        icon: "●",
+        description: "Sphères de chakra pouvant prendre différentes formes et neutraliser de nombreuses techniques."
+    },
+    {
+        name: "Kekkei Mōra de Kaguya",
+        category: "Autre",
+        clan: "Kaguya Ōtsutsuki",
+        icon: "✧",
+        description: "Pouvoirs exceptionnels incluant des techniques dimensionnelles et les os cendrés meurtriers."
+    }
+];
+
+const grid = document.getElementById("techniqueGrid");
+const searchBar = document.getElementById("searchBar");
+const resultCount = document.getElementById("resultCount");
+const noResults = document.getElementById("noResults");
+const clearSearch = document.getElementById("clearSearch");
+const filters = document.querySelectorAll(".filter");
+
+let activeFilter = "all";
+
+function normalize(text) {
+    return text
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "");
+}
+
+function renderTechniques() {
+    const query = normalize(searchBar.value.trim());
+
+    const filtered = techniques.filter(item => {
+        const searchable = normalize(
+            `${item.name} ${item.category} ${item.clan} ${item.description}`
+        );
+
+        const matchesSearch = searchable.includes(query);
+        const matchesFilter =
+            activeFilter === "all" ||
+            item.category === activeFilter;
+
+        return matchesSearch && matchesFilter;
+    });
+
+    grid.innerHTML = filtered.map(item => `
+        <article class="card">
+            <div class="card-top">
+                <div class="card-icon">${item.icon}</div>
+                <span class="tag">${item.category}</span>
+            </div>
+
+            <h3>${item.name}</h3>
+            <p>${item.description}</p>
+            <div class="clan">${item.clan}</div>
+        </article>
+    `).join("");
+
+    resultCount.textContent =
+        `${filtered.length} pouvoir(s) trouvé(s) sur ${techniques.length}`;
+
+    noResults.hidden = filtered.length !== 0;
+}
+
+searchBar.addEventListener("input", renderTechniques);
+
+clearSearch.addEventListener("click", () => {
+    searchBar.value = "";
+    renderTechniques();
+    searchBar.focus();
+});
+
+filters.forEach(button => {
+    button.addEventListener("click", () => {
+        filters.forEach(filter => filter.classList.remove("active"));
+
+        button.classList.add("active");
+        activeFilter = button.dataset.filter;
+
+        renderTechniques();
+    });
+});
+
+renderTechniques();
+
+# 🍥 Naruto - Encyclopédie des pouvoirs
+
+Site web consacré aux pouvoirs de l'univers Naruto.
+
+## Fonctionnalités
+
+- Barre de recherche instantanée.
+- Filtres par catégorie.
+- Fiches descriptives des techniques.
+- Design sombre et orange.
+- Compatible mobile et ordinateur.
+- Compatible avec GitHub Pages.
+
+## Installation
+
+1. Télécharge ou clone le dépôt.
+2. Garde les fichiers `index.html`, `style.css` et `script.js` dans le même dossier.
+3. Ouvre `index.html` dans ton navigateur.
+
+## Publication avec GitHub Pages
+
+1. Ouvre les paramètres du dépôt GitHub.
+2. Va dans Settings > Pages.
+3. Choisis Deploy from a branch.
+4. Sélectionne la branche main.
+5. Sélectionne le dossier /(root).
+6. Clique sur Save.
+
+Ton site sera ensuite publié sur GitHub Pages.
+
+## Crédits
+
+Projet de fan non officiel inspiré de l'univers Naruto.
+Naruto appartient à ses ayants droit respectifs.
+
+</html>
